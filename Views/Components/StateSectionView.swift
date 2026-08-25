@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 struct StateSectionView: View {
@@ -19,11 +18,17 @@ struct StateSectionView: View {
             }
         } label: {
             HStack {
-                let stateColor = NodeService.ServiceState(rawValue: group.name)?.colour ?? .gray
-                CountLozenge(text: "\(group.items.count)", color: stateColor)
-                Text(group.name.uppercased())
-                    .font(.headline)
-                    .foregroundStyle(.primary)
+                let state = NodeService.ServiceState(rawValue: group.name)
+                let stateColour = state?.colour ?? .gray
+                let stateIcon = state?.icon
+                
+                CountLozenge(
+                    text: "\(group.items.count) \(group.name.uppercased())",
+                    icon: stateIcon,
+                    colour: stateColour
+                )
+                
+                Spacer()
             }
         }
     }

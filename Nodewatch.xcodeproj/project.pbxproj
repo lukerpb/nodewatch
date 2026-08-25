@@ -6,8 +6,13 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A322EB9C303E1BD400143B65 /* deploy.sh in Resources */ = {isa = PBXBuildFile; fileRef = A322EB9B303E1BCC00143B65 /* deploy.sh */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* Nodewatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nodewatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A322EB9B303E1BCC00143B65 /* deploy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = deploy.sh; sourceTree = "<group>"; };
 		A33A8FD1303DBD6D00C3356B /* Nodewatch-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Nodewatch-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,6 +51,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				A322EB9B303E1BCC00143B65 /* deploy.sh */,
 				A33A8FD1303DBD6D00C3356B /* Nodewatch-Info.plist */,
 				A33A8FBB303D831600C3356B /* App */,
 				A33A8FBC303D833F00C3356B /* Models */,
@@ -126,6 +132,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				A322EB9C303E1BD400143B65 /* deploy.sh in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -288,7 +295,7 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_RESOURCE_ACCESS_USB = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Nodewatch-Info.plist";
@@ -343,7 +350,7 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_RESOURCE_ACCESS_USB = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Nodewatch-Info.plist";

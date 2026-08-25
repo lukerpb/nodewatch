@@ -1,17 +1,18 @@
 import SwiftUI
 
 struct HostSectionView: View {
-    let group: ServiceGroup
+    let group: HostGroup
     @State private var isExpanded: Bool = false
     
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
+            // NEW: Added icons to the nested builder
             TrafficLightBuilder(items: [
-                (group.items.filter { $0.state == .ok }.count, .green),
-                (group.items.filter { $0.state == .critical }.count, .red),
-                (group.items.filter { $0.state == .warning }.count, .yellow),
-                (group.items.filter { $0.state == .unknown }.count, .orange),
-                (group.items.filter { $0.state == .pending }.count, .blue)
+                (group.items.filter { $0.state == .ok }.count, .green, "OK", NodeService.ServiceState.ok.icon),
+                (group.items.filter { $0.state == .critical }.count, .red, "CRITICAL", NodeService.ServiceState.critical.icon),
+                (group.items.filter { $0.state == .warning }.count, .yellow, "WARNING", NodeService.ServiceState.warning.icon),
+                (group.items.filter { $0.state == .unknown }.count, .orange, "UNKNOWN", NodeService.ServiceState.unknown.icon),
+                (group.items.filter { $0.state == .pending }.count, .blue, "PENDING", NodeService.ServiceState.pending.icon)
             ])
             .listRowSeparator(.hidden)
             .padding(.leading, -16)
@@ -29,9 +30,11 @@ struct HostSectionView: View {
                     .font(.headline)
                     .foregroundStyle(.primary)
                 Spacer()
-                if let hostState = group.hostState {
-                    CountLozenge(text: hostState.rawValue, color: hostState.colour)
-                }
+                CountLozenge(
+                    text: group.state.rawValue.uppercased(),
+                    icon: group.state.icon,
+                    colour: group.state.colour
+                )
             }
         }
     }

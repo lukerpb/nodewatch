@@ -10,7 +10,7 @@ struct ContentView: View {
                     Label("Dashboard", systemImage: "server.rack")
                 }
             
-            SettingsView()
+            SettingsView(viewModel: viewModel)
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
                 }

@@ -4,6 +4,7 @@ struct NodeService: Identifiable, Codable, Hashable {
     var id: String { "\(host)-\(serviceName)" }
     let host: String
     let hostState: HostState?
+    let hostGroups: [String]?
     let serviceName: String
     let state: ServiceState
     let output: String
@@ -11,6 +12,7 @@ struct NodeService: Identifiable, Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case host
         case hostState = "host_state"
+        case hostGroups = "host_groups"
         case serviceName = "service_name"
         case state
         case output
@@ -30,6 +32,16 @@ struct NodeService: Identifiable, Codable, Hashable {
             case .critical: return .red
             case .pending: return .blue
             case .unknown: return .orange
+            }
+        }
+        
+        var icon: String {
+            switch self {
+                case .ok: return "checkmark.circle.fill"
+                case .warning: return "exclamationmark.triangle.fill"
+                case .critical: return "xmark.octagon.fill"
+                case .pending: return "clock.fill"
+                case .unknown: return "questionmark.circle.fill"
             }
         }
         
@@ -56,6 +68,15 @@ struct NodeService: Identifiable, Codable, Hashable {
                 case .down: return .red
                 case .unreachable: return .orange
                 case .pending: return .blue
+            }
+        }
+        
+        var icon: String {
+            switch self {
+                case .up: return "checkmark.circle.fill"
+                case .down: return "xmark.octagon.fill"
+                case .unreachable: return "network.slash"
+                case .pending: return "clock.fill"
             }
         }
         
