@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
 
+private let lastKnownDataKey = "lastKnownServicesPayload"
+
 enum GroupBy: String, CaseIterable {
     case service = "By Service"
     case host = "By Host"
@@ -92,7 +94,6 @@ class NodewatchViewModel: ObservableObject {
     var countHostUnreachable: Int { uniqueHosts.values.filter { $0 == .unreachable }.count }
     var countHostPending: Int { uniqueHosts.values.filter { $0 == .pending }.count }
     
-    // NEW: Computed property to group Hosts by State
     var hostStateGroups: [HostStateGroup] {
         let hostDict = Dictionary(grouping: searchedServices, by: { $0.host })
         let allHostGroups = hostDict.map { (hostName, services) -> HostGroup in
@@ -158,10 +159,17 @@ class NodewatchViewModel: ObservableObject {
             }
             
             let decoder = JSONDecoder()
-            let decodedServices = try decoder.decode([NodeService].self, from: data)
+            let newServices = try decoder.decode([NodeService].self, from: data)
+            
+            if let oldData = UserDefaults.standard.data(forKey: lastKnownDataKey),
+               let oldServices = try? decoder.decode([NodeService].self, from: oldData) {
+                NotificationManager.shared.processStateChanges(oldServices: oldServices, newServices: newServices)
+            }
+            
+            UserDefaults.standard.set(data, forKey: lastKnownDataKey)
             
             await MainActor.run {
-                self.services = decodedServices
+                self.services = newServices
                 self.lastRefresh = Date()
                 self.nextRefreshCountdown = Constants.AppState.autoRefreshInterval
                 self.isRefreshing = false

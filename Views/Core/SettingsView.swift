@@ -72,6 +72,18 @@ struct SettingsView: View {
                         .padding(.leading, 8)
                     }
                 }
+                Section(header: Text("Diagnostics")) {
+                    Button(action: {
+                        NotificationManager.shared.sendTestNotification()
+                    }) {
+                        HStack {
+                            Text("Send test notification")
+                            Spacer()
+                            Image(systemName: "bell.badge.fill")
+                                .foregroundStyle(.blue)
+                        }
+                    }
+                }
             }
             .navigationTitle("Settings")
             .onAppear { loadConfig() }
