@@ -25,7 +25,7 @@ struct TrafficLightBuilder: View {
                         .bold()
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(UIConstants.filterColour.opacity(0.2))
+                        .background(Constants.Colours.filterActive.opacity(0.2))
                         .foregroundStyle(Constants.Colours.filterActive)
                         .cornerRadius(6)
                 }

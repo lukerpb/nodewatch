@@ -54,7 +54,7 @@ struct EditServerView: View {
                     header: HStack {
                         Text("Connection")
                         Spacer()
-                        Link("Setup Guide", destination: Constants.URLs.setupGuide!)
+                        Link("Setup Guide", destination: Constants.URLs.setupGuide)
                             .font(.caption)
                     }
                 ) {
