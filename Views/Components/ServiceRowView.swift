@@ -21,7 +21,7 @@ struct ServiceRowView: View {
             
             let isSilenced = prefs.silencedServices[service.host]?.contains(service.serviceName) ?? false
             if isSilenced {
-                Image(systemName: "bell.slash.fill")
+                Image(systemName: Constants.Icons.bellMuted)
                     .foregroundStyle(.red)
                     .imageScale(.small)
                     .padding(.trailing, 2)

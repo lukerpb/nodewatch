@@ -1,10 +1,6 @@
 
 import SwiftUI
 
-private enum UIFadeConstants {
-    static let startLocation: CGFloat = 0.85
-    static let endLocation: CGFloat = 1.0
-}
 
 struct FadingTrailingEdge: ViewModifier {
     func body(content: Content) -> some View {
@@ -13,8 +9,8 @@ struct FadingTrailingEdge: ViewModifier {
             .mask(
                 LinearGradient(
                     stops: [
-                        .init(color: .black, location: UIFadeConstants.startLocation),
-                        .init(color: .clear, location: UIFadeConstants.endLocation)
+                        .init(color: .black, location: Constants.Layout.fadeStartLocation),
+                        .init(color: .clear, location: Constants.Layout.fadeEndLocation)
                     ],
                     startPoint: .leading,
                     endPoint: .trailing

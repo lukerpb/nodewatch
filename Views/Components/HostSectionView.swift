@@ -21,8 +21,8 @@ struct HostSectionView: View {
                 (group.items.filter { $0.state == .pending }.count, .blue, "PENDING", NodeService.ServiceState.pending.icon)
             ])
             .listRowSeparator(.hidden)
-            .padding(.leading, -20)
-            .padding(.vertical, -16)
+            .padding(.leading, Constants.Layout.hostTrafficLightLeadingPad)
+            .padding(.vertical, Constants.Layout.hostTrafficLightVerticalPad)
             
             ForEach(group.items) { service in
                 NavigationLink(value: service) {
@@ -33,7 +33,7 @@ struct HostSectionView: View {
                     Button {
                         prefs.toggleService(host: group.name, service: service.serviceName)
                     } label: {
-                        Label(isSilenced ? "Unmute" : "Mute", systemImage: isSilenced ? "bell.fill" : "bell.slash.fill")
+                        Label(isSilenced ? "Unmute" : "Mute", systemImage: isSilenced ? Constants.Icons.bell : Constants.Icons.bellMuted)
                     }
                     .tint(isSilenced ? .blue : .orange)
                 }
@@ -57,7 +57,7 @@ struct HostSectionView: View {
                     
                     CountLozenge(
                         text: labelText,
-                        icon: "bell.fill",
+                        icon: Constants.Icons.bell,
                         colour: colour,
                         isOutline: isOutline
                     )
@@ -74,7 +74,7 @@ struct HostSectionView: View {
                 Button {
                     prefs.toggleHost(group.name)
                 } label: {
-                    Label(isOptedIn ? "Disable Alerts" : "Enable Alerts", systemImage: isOptedIn ? "bell.slash.fill" : "bell.fill")
+                    Label(isOptedIn ? "Disable Alerts" : "Enable Alerts", systemImage: isOptedIn ? Constants.Icons.bellMuted : Constants.Icons.bell)
                 }
                 .tint(isOptedIn ? .red : .blue)
             }

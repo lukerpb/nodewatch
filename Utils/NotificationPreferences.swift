@@ -16,7 +16,7 @@ class NotificationPreferences: ObservableObject {
         didSet { saveData() }
     }
     
-    private let storageKey = "NodewatchNotificationPrefs"
+    private let storageKey = Constants.Storage.notificationPrefsKey
     
     private init() { loadData() }
     

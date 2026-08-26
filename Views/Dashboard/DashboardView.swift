@@ -1,12 +1,6 @@
 import SwiftUI
 import Combine
 
-private enum UIConstants {
-    static let searchPlaceholder = "Search..."
-    static let searchIcon = "magnifyingglass"
-    static let clearIcon = "xmark.circle.fill"
-}
-
 struct DashboardView: View {
     @ObservedObject var viewModel: NodewatchViewModel
     @AppStorage(Constants.Storage.serverConfigKey) private var serverConfigData: Data = Data()
@@ -83,16 +77,16 @@ struct DashboardView: View {
                 .padding(.horizontal)
                 
                 HStack {
-                    Image(systemName: UIConstants.searchIcon)
+                    Image(systemName: Constants.Icons.search)
                         .foregroundStyle(.secondary)
                     
-                    TextField(UIConstants.searchPlaceholder, text: currentSearchText)
+                    TextField(Constants.Strings.searchPlaceholder, text: currentSearchText)
                         .autocorrectionDisabled(true)
                         .textInputAutocapitalization(.never)
                     
                     if !currentSearchText.wrappedValue.isEmpty {
                         Button(action: { currentSearchText.wrappedValue = "" }) {
-                            Image(systemName: UIConstants.clearIcon)
+                            Image(systemName: Constants.Icons.clear)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -126,7 +120,7 @@ struct DashboardView: View {
                     }
                 }
                 .contentMargins(.top, 0, for: .scrollContent)
-                .environment(\.defaultMinListRowHeight, 32)
+                .environment(\.defaultMinListRowHeight, Constants.Layout.defaultListRowHeight)
                 .navigationDestination(for: NodeService.self) { service in
                     ServiceDetailView(service: service)
                 }

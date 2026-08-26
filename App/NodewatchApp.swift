@@ -14,13 +14,13 @@ struct NodewatchApp: App {
                 scheduleAppRefresh()
             }
         }
-        .backgroundTask(.appRefresh("com.nodewatch.refresh")) {
+        .backgroundTask(.appRefresh(Constants.AppState.backgroundTaskIdentifier)) {
             await performBackgroundUpdate()
         }
     }
     
     private func scheduleAppRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: "com.nodewatch.refresh")
+        let request = BGAppRefreshTaskRequest(identifier: Constants.AppState.backgroundTaskIdentifier)
         
         request.earliestBeginDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())
         

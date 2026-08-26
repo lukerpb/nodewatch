@@ -16,7 +16,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(serverConfig.name).font(.headline)
                             
-                            Text(serverConfig.url.isEmpty ? "Not Configured" : serverConfig.url)
+                            Text(serverConfig.url.isEmpty ? "Not configured" : serverConfig.url)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             
@@ -25,7 +25,7 @@ struct SettingsView: View {
                                 if viewModel.isFiltering {
                                     Text("Filtering active: showing \(viewModel.filteredHostCount)/\(viewModel.totalHostCount) hosts, \(viewModel.filteredServiceCount)/\(viewModel.totalServiceCount) services")
                                         .font(.caption)
-                                        .foregroundStyle(Color(red: 1.0, green: 0.6, blue: 0.7)) // babyPink
+                                        .foregroundStyle(Constants.Colours.filterActive)
                                 } else {
                                     Text("\(viewModel.totalHostCount) hosts, \(viewModel.totalServiceCount) services")
                                         .font(.caption)
@@ -49,11 +49,11 @@ struct SettingsView: View {
                                     ProgressView()
                                         .transition(.opacity)
                                 } else if testState == .success {
-                                    Image(systemName: "checkmark.circle.fill")
+                                    Image(systemName: Constants.Icons.success)
                                         .foregroundStyle(.green)
                                         .transition(.opacity)
                                 } else if testState == .failure {
-                                    Image(systemName: "xmark.circle.fill")
+                                    Image(systemName: Constants.Icons.error)
                                         .foregroundStyle(.red)
                                         .transition(.opacity)
                                 }
@@ -66,7 +66,7 @@ struct SettingsView: View {
                         
                         // Edit Trigger
                         Button(action: { isShowingEditSheet = true }) {
-                            Image(systemName: "info.circle")
+                            Image(systemName: Constants.Icons.info)
                                 .foregroundStyle(.blue)
                         }
                         .padding(.leading, 8)
@@ -79,7 +79,7 @@ struct SettingsView: View {
                         HStack {
                             Text("Send test notification")
                             Spacer()
-                            Image(systemName: "bell.badge.fill")
+                            Image(systemName: Constants.Icons.bellTest)
                                 .foregroundStyle(.blue)
                         }
                     }

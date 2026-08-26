@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-private let lastKnownDataKey = "lastKnownServicesPayload"
+private let lastKnownDataKey = Constants.Storage.lastKnownPayloadKey
 
 enum GroupBy: String, CaseIterable {
     case service = "By Service"

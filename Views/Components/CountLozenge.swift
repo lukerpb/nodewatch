@@ -1,11 +1,5 @@
 import SwiftUI
 
-private enum LozengeStyle {
-    static let backgroundOpacity: Double = 0.2
-    static let cornerRadius: CGFloat = 6.0
-    static let outlineWidth: CGFloat = 1.5
-}
-
 struct CountLozenge: View {
     let text: String
     var icon: String? = nil
@@ -23,12 +17,12 @@ struct CountLozenge: View {
         .bold()
         .padding(.horizontal, 5)
         .padding(.vertical, 4)
-        .background(isOutline ? Color.clear : colour.opacity(LozengeStyle.backgroundOpacity))
+        .background(isOutline ? Color.clear : colour.opacity(Constants.Layout.lozengeBackgroundOpacity))
         .overlay(
-            RoundedRectangle(cornerRadius: LozengeStyle.cornerRadius)
-                .stroke(colour, lineWidth: isOutline ? LozengeStyle.outlineWidth : 0)
+            RoundedRectangle(cornerRadius: Constants.Layout.lozengeCornerRadius)
+                .stroke(colour, lineWidth: isOutline ? Constants.Layout.lozengeOutlineWidth : 0)
         )
         .foregroundStyle(colour)
-        .cornerRadius(LozengeStyle.cornerRadius)
+        .cornerRadius(Constants.Layout.lozengeCornerRadius)
     }
 }

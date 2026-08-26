@@ -27,41 +27,41 @@ struct NodeService: Identifiable, Codable, Hashable {
         
         var colour: Color {
             switch self {
-            case .ok: return .green
-            case .warning: return .yellow
-            case .critical: return .red
-            case .pending: return .blue
-            case .unknown: return .orange
+                case .ok: return .green
+                case .warning: return .yellow
+                case .critical: return .red
+                case .pending: return .blue
+                case .unknown: return .orange
             }
         }
         
         var icon: String {
             switch self {
-                case .ok: return "checkmark.circle.fill"
-                case .warning: return "exclamationmark.triangle.fill"
-                case .critical: return "xmark.octagon.fill"
-                case .pending: return "clock.fill"
-                case .unknown: return "questionmark.circle.fill"
+                case .ok: return Constants.Icons.serviceOk
+                case .warning: return Constants.Icons.serviceWarning
+                case .critical: return Constants.Icons.serviceCritical
+                case .pending: return Constants.Icons.servicePending
+                case .unknown: return Constants.Icons.serviceUnknown
             }
         }
         
         var emoji: String {
             switch self {
-            case .ok: return "🟢"
-            case .critical: return "🔴"
-            case .warning: return "🟡"
-            case .unknown: return "🟠"
-            case .pending: return "🔵"
+                case .ok: return "🟢"
+                case .critical: return "🔴"
+                case .warning: return "🟡"
+                case .unknown: return "🟠"
+                case .pending: return "🔵"
             }
         }
         
         var priority: Int {
             switch self {
-            case .critical: return 0
-            case .warning: return 1
-            case .unknown: return 2
-            case .pending: return 3
-            case .ok: return 4
+                case .critical: return 0
+                case .warning: return 1
+                case .unknown: return 2
+                case .pending: return 3
+                case .ok: return 4
             }
         }
     }
@@ -83,19 +83,19 @@ struct NodeService: Identifiable, Codable, Hashable {
         
         var icon: String {
             switch self {
-                case .up: return "arrow.up.circle.fill"
-                case .down: return "arrow.down.circle.fill"
-                case .unreachable: return "network.slash"
-                case .pending: return "clock.fill"
+                case .up: return Constants.Icons.hostUp
+                case .down: return Constants.Icons.hostDown
+                case .unreachable: return Constants.Icons.hostUnreachable
+                case .pending: return Constants.Icons.servicePending
             }
         }
         
         var emoji: String {
             switch self {
-            case .up: return "🟢"
-            case .down: return "🔴"
-            case .unreachable: return "🟠"
-            case .pending: return "🔵"
+                case .up: return "🟢"
+                case .down: return "🔴"
+                case .unreachable: return "🟠"
+                case .pending: return "🔵"
             }
         }
         

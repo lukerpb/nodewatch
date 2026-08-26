@@ -9,12 +9,12 @@ struct ContentView: View {
         TabView {
             DashboardView(viewModel: viewModel)
                 .tabItem {
-                    Label("Dashboard", systemImage: "server.rack")
+                    Label("Dashboard", systemImage: Constants.Icons.dashboardTab)
                 }
             
             SettingsView(viewModel: viewModel)
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape")
+                    Label("Settings", systemImage: Constants.Icons.settingsTab)
                 }
         }
         .task {

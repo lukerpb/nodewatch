@@ -27,7 +27,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     
     func sendTestNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Nodewatch Alert"
+        content.title = Constants.Strings.defaultAlertTitle
         content.body = "This is a test notification to confirm the simulator is rendering them correctly!"
         content.sound = .default
         
@@ -58,7 +58,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
             if newHostState.priority < oldHostState.priority {
                 dispatchAlert(
                     identifier: "host-\(newService.host)",
-                    title: "Nodewatch Alert",
+                    title: Constants.Strings.defaultAlertTitle,
                     body: "\(oldHostState.emoji) \(oldHostState.rawValue.uppercased()) ➔ \(newHostState.emoji) \(newHostState.rawValue.uppercased()): Host \(newService.host)"
                 )
             }
@@ -71,7 +71,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 if newState.priority < oldState.priority {
                     dispatchAlert(
                         identifier: "svc-\(key)",
-                        title: "Nodewatch Alert",
+                        title: Constants.Strings.defaultAlertTitle,
                         body: "\(oldState.emoji) \(oldState.rawValue.uppercased()) ➔ \(newState.emoji) \(newState.rawValue.uppercased()): \(newService.serviceName) on \(newService.host)"
                     )
                 }
