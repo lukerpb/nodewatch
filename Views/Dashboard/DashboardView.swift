@@ -126,6 +126,7 @@ struct DashboardView: View {
                     }
                 }
                 .contentMargins(.top, 0, for: .scrollContent)
+                .environment(\.defaultMinListRowHeight, 32)
                 .navigationDestination(for: NodeService.self) { service in
                     ServiceDetailView(service: service)
                 }

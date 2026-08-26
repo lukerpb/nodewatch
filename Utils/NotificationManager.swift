@@ -42,28 +42,39 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     
     func processStateChanges(oldServices: [NodeService], newServices: [NodeService]) {
         guard hasPermission else { return }
+        let prefs = NotificationPreferences.shared
         
         let oldDict = Dictionary(uniqueKeysWithValues: oldServices.map { ("\($0.host)-\($0.serviceName)", $0) })
         
         for newService in newServices {
+            guard prefs.optedInHosts.contains(newService.host) else { continue }
+            
             let key = "\(newService.host)-\(newService.serviceName)"
             let oldService = oldDict[key]
             
-            let isNewlyCritical = newService.state == .critical && oldService?.state != .critical
-            let isNewlyDown = newService.hostState == .down && oldService?.hostState != .down
+            let oldHostState = oldService?.hostState ?? .up
+            let newHostState = newService.hostState ?? .up
             
-            if isNewlyDown {
+            if newHostState.priority < oldHostState.priority {
                 dispatchAlert(
-                    identifier: "down-\(key)",
-                    title: "Host Down",
-                    body: "\(newService.host) has gone offline."
+                    identifier: "host-\(newService.host)",
+                    title: "Nodewatch Alert",
+                    body: "\(oldHostState.emoji) \(oldHostState.rawValue.uppercased()) ➔ \(newHostState.emoji) \(newHostState.rawValue.uppercased()): Host \(newService.host)"
                 )
-            } else if isNewlyCritical {
-                dispatchAlert(
-                    identifier: "crit-\(key)",
-                    title: "Service Critical",
-                    body: "\(newService.serviceName) on \(newService.host) is reporting a CRITICAL state."
-                )
+            }
+            
+            let isSilenced = prefs.silencedServices[newService.host]?.contains(newService.serviceName) ?? false
+            if !isSilenced {
+                let oldState = oldService?.state ?? .ok
+                let newState = newService.state
+                
+                if newState.priority < oldState.priority {
+                    dispatchAlert(
+                        identifier: "svc-\(key)",
+                        title: "Nodewatch Alert",
+                        body: "\(oldState.emoji) \(oldState.rawValue.uppercased()) ➔ \(newState.emoji) \(newState.rawValue.uppercased()): \(newService.serviceName) on \(newService.host)"
+                    )
+                }
             }
         }
     }

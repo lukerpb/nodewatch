@@ -43,20 +43,26 @@ class NodewatchViewModel: ObservableObject {
         !hostGroupsFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
-    var filteredServices: [NodeService] {
-        if !isFiltering || selectedGrouping == .none { return services }
-        
+    private func applyConfigFilter(to items: [NodeService]) -> [NodeService] {
         let filters = hostGroupsFilter
             .split(separator: ",")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
             .filter { !$0.isEmpty }
         
-        return services.filter { service in
+        if filters.isEmpty { return items }
+        
+        return items.filter { service in
             guard let serviceGroups = service.hostGroups else { return false }
             return serviceGroups.contains { group in
                 filters.contains { filterTerm in group.lowercased().contains(filterTerm) }
             }
         }
+    }
+    
+    var filteredServices: [NodeService] {
+        if !isFiltering || selectedGrouping == .none { return services }
+        
+        return applyConfigFilter(to: services)
     }
 
     var searchedServices: [NodeService] {
@@ -163,7 +169,11 @@ class NodewatchViewModel: ObservableObject {
             
             if let oldData = UserDefaults.standard.data(forKey: lastKnownDataKey),
                let oldServices = try? decoder.decode([NodeService].self, from: oldData) {
-                NotificationManager.shared.processStateChanges(oldServices: oldServices, newServices: newServices)
+                
+                let oldFiltered = self.applyConfigFilter(to: oldServices)
+                let newFiltered = self.applyConfigFilter(to: newServices)
+                
+                NotificationManager.shared.processStateChanges(oldServices: oldFiltered, newServices: newFiltered)
             }
             
             UserDefaults.standard.set(data, forKey: lastKnownDataKey)

@@ -2,8 +2,9 @@ import SwiftUI
 
 struct HostSectionView: View {
     let group: HostGroup
-    var isSearching: Bool // NEW
+    var isSearching: Bool
     @State private var isExpanded: Bool = false
+    @ObservedObject private var prefs = NotificationPreferences.shared
     
     var body: some View {
         let expandedBinding = Binding(
@@ -20,13 +21,21 @@ struct HostSectionView: View {
                 (group.items.filter { $0.state == .pending }.count, .blue, "PENDING", NodeService.ServiceState.pending.icon)
             ])
             .listRowSeparator(.hidden)
-            .padding(.leading, -16)
-            .padding(.top, 4)
-            .padding(.bottom, 4)
+            .padding(.leading, -20)
+            .padding(.vertical, -16)
             
             ForEach(group.items) { service in
                 NavigationLink(value: service) {
                     ServiceRowView(service: service)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    let isSilenced = prefs.silencedServices[group.name]?.contains(service.serviceName) ?? false
+                    Button {
+                        prefs.toggleService(host: group.name, service: service.serviceName)
+                    } label: {
+                        Label(isSilenced ? "Unmute" : "Mute", systemImage: isSilenced ? "bell.fill" : "bell.slash.fill")
+                    }
+                    .tint(isSilenced ? .blue : .orange)
                 }
             }
         } label: {
@@ -34,13 +43,43 @@ struct HostSectionView: View {
                 Text(group.name)
                     .font(.headline)
                     .foregroundStyle(.primary)
-                Spacer()
+                    .lineLimit(1)
+                    .fadingTrailingEdge()
+                
+                let status = prefs.status(for: group.name, totalServices: group.items.count)
+                if status != .none {
+                    let isFull = status == .full
+                    let isPartial = status == .partial
+                    
+                    let labelText = isFull ? "Full" : (isPartial ? "Partial" : "Host Only")
+                    let colour: Color = (isFull || isPartial) ? .cyan : .gray
+                    let isOutline = !isFull
+                    
+                    CountLozenge(
+                        text: labelText,
+                        icon: "bell.fill",
+                        colour: colour,
+                        isOutline: isOutline
+                    )
+                }
+                
                 CountLozenge(
                     text: group.state.rawValue.uppercased(),
                     icon: group.state.icon,
                     colour: group.state.colour
                 )
             }
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                let isOptedIn = prefs.optedInHosts.contains(group.name)
+                Button {
+                    prefs.toggleHost(group.name)
+                } label: {
+                    Label(isOptedIn ? "Disable Alerts" : "Enable Alerts", systemImage: isOptedIn ? "bell.slash.fill" : "bell.fill")
+                }
+                .tint(isOptedIn ? .red : .blue)
+            }
         }
+        .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
     }
 }
+

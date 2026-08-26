@@ -40,6 +40,8 @@ struct NodewatchApp: App {
         
         let tempViewModel = NodewatchViewModel()
         
+        tempViewModel.hostGroupsFilter = config.hostGroups
+        
         await tempViewModel.fetchLiveData(from: config.fullUrl)
         
         scheduleAppRefresh()

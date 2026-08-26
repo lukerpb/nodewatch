@@ -45,6 +45,16 @@ struct NodeService: Identifiable, Codable, Hashable {
             }
         }
         
+        var emoji: String {
+            switch self {
+            case .ok: return "🟢"
+            case .critical: return "🔴"
+            case .warning: return "🟡"
+            case .unknown: return "🟠"
+            case .pending: return "🔵"
+            }
+        }
+        
         var priority: Int {
             switch self {
             case .critical: return 0
@@ -77,6 +87,15 @@ struct NodeService: Identifiable, Codable, Hashable {
                 case .down: return "arrow.down.circle.fill"
                 case .unreachable: return "network.slash"
                 case .pending: return "clock.fill"
+            }
+        }
+        
+        var emoji: String {
+            switch self {
+            case .up: return "🟢"
+            case .down: return "🔴"
+            case .unreachable: return "🟠"
+            case .pending: return "🔵"
             }
         }
         

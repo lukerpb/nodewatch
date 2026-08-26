@@ -1,12 +1,8 @@
 import SwiftUI
 
-private enum LocalConfig {
-    static let autoExpandThreshold = 10
-}
-
 struct StateSectionView: View {
     let group: ServiceGroup
-    var isSearching: Bool // NEW
+    var isSearching: Bool
     @State private var isExpanded: Bool
     
     init(group: ServiceGroup, isSearching: Bool) {
@@ -42,5 +38,6 @@ struct StateSectionView: View {
                 Spacer()
             }
         }
+        .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
     }
 }

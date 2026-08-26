@@ -25,5 +25,6 @@ struct HostStateSectionView: View {
                 Spacer()
             }
         }
+        .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
     }
 }
