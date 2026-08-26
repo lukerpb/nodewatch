@@ -3,7 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: NodewatchViewModel
     
-    @AppStorage("serverConfigData") private var serverConfigData: Data = Data()
+    @AppStorage(Constants.Storage.serverConfigKey) private var serverConfigData: Data = Data()
     @State private var serverConfig: ServerConfig = ServerConfig()
     @State private var isShowingEditSheet = false
     @State private var testState: TestState = .idle
@@ -59,7 +59,7 @@ struct SettingsView: View {
                                 }
                             }
                             .frame(width: 60, alignment: .trailing)
-                            .animation(.easeInOut(duration: 0.3), value: testState)
+                            .animation(.easeInOut(duration: Constants.UI.animationDuration), value: testState)
                         }
                         .buttonStyle(.plain)
                         .disabled(testState != .idle)
@@ -99,12 +99,12 @@ struct SettingsView: View {
     
     private func runConnectionTest() async {
         await MainActor.run {
-            withAnimation(.easeInOut(duration: 0.3)) {
+            withAnimation(.easeInOut(duration: Constants.UI.animationDuration)) {
                 testState = .testing
             }
         }
         
-        try? await Task.sleep(nanoseconds: 750_000_000)
+        try? await Task.sleep(nanoseconds: Constants.UI.testSpinnerDelay)
         
         guard let url = URL(string: serverConfig.fullUrl) else {
             serverConfig.lastError = "Invalid URL format. Please check the address and port."
@@ -116,7 +116,7 @@ struct SettingsView: View {
         do {
             var request = URLRequest(url: url)
             
-            request.timeoutInterval = 5.0
+            request.timeoutInterval = Constants.Network.testRequestTimeout
             let (_, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
@@ -138,14 +138,14 @@ struct SettingsView: View {
     private func finaliseTestState(to finalState: TestState) {
         Task {
             await MainActor.run {
-                withAnimation(.easeInOut(duration: 0.3)) {
+                withAnimation(.easeInOut(duration: Constants.UI.animationDuration)) {
                     testState = finalState
                 }
             }
-            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            try? await Task.sleep(nanoseconds: Constants.UI.testResultHoldDuration)
             
             await MainActor.run {
-                withAnimation(.easeInOut(duration: 0.3)) {
+                withAnimation(.easeInOut(duration: Constants.UI.animationDuration)) {
                     testState = .idle
                 }
             }

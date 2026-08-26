@@ -1,5 +1,12 @@
 import SwiftUI
 
+private enum LocalStrings {
+    static let navTitle = "Edit Server"
+    static let discardTitle = "Discard changes?"
+    static let discardAction = "Discard"
+    static let keepEditingAction = "Keep editing"
+}
+
 enum EditServerFocusField {
     case name, url, port, hostGroups
 }
@@ -47,7 +54,7 @@ struct EditServerView: View {
                     header: HStack {
                         Text("Connection")
                         Spacer()
-                        Link("Setup Guide", destination: URL(string: "https://github.com/lukerpb/Nodewatch/wiki/Setup-Guide")!)
+                        Link("Setup Guide", destination: Constants.URLs.setupGuide!)
                             .font(.caption)
                     }
                 ) {
@@ -67,7 +74,7 @@ struct EditServerView: View {
                         .focused($focusedField, equals: .hostGroups)
                 }
             }
-            .navigationTitle("Edit Server")
+            .navigationTitle(LocalStrings.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -91,9 +98,9 @@ struct EditServerView: View {
                 }
             }
             .interactiveDismissDisabled(hasChanges)
-            .alert("Discard Changes?", isPresented: $showDiscardAlert) {
-                Button("Discard", role: .destructive) { dismiss() }
-                Button("Keep Editing", role: .cancel) { }
+            .alert(LocalStrings.discardTitle, isPresented: $showDiscardAlert) {
+                Button(LocalStrings.discardAction, role: .destructive) { dismiss() }
+                Button(LocalStrings.keepEditingAction, role: .cancel) { }
             }
             .onAppear {
                 draftConfig = config

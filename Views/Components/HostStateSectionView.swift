@@ -2,12 +2,18 @@ import SwiftUI
 
 struct HostStateSectionView: View {
     let stateGroup: HostStateGroup
+    var isSearching: Bool
     @State private var isExpanded: Bool = false
     
     var body: some View {
-        DisclosureGroup(isExpanded: $isExpanded) {
+        let expandedBinding = Binding(
+            get: { isSearching || isExpanded },
+            set: { isExpanded = $0 }
+        )
+        
+        DisclosureGroup(isExpanded: expandedBinding) {
             ForEach(stateGroup.hosts) { hostGroup in
-                HostSectionView(group: hostGroup)
+                HostSectionView(group: hostGroup, isSearching: isSearching)
             }
         } label: {
             HStack {

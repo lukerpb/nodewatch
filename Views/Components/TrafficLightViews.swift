@@ -1,12 +1,15 @@
 import SwiftUI
 
+private enum UIConstants {
+    static let filterColour = Color(red: 1.0, green: 0.6, blue: 0.7)
+    static let filterActiveText = "Filtering active"
+}
+
 struct TrafficLightBuilder: View {
     let items: [(count: Int, colour: Color, label: String?, icon: String)]
     var filterText: String? = nil
     var onFilterTap: (() -> Void)? = nil
-    
-    let babyPink = Color(red: 1.0, green: 0.6, blue: 0.7)
-    
+        
     var body: some View {
         let visibleItems = items.filter { $0.count > 0 }
         
@@ -22,13 +25,13 @@ struct TrafficLightBuilder: View {
             
             if let filterText = filterText, !filterText.trimmingCharacters(in: .whitespaces).isEmpty {
                 Button(action: { onFilterTap?() }) {
-                    Text("Filtering active")
+                    Text(UIConstants.filterActiveText)
                         .font(.system(.caption, design: .monospaced))
                         .bold()
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(babyPink.opacity(0.2))
-                        .foregroundStyle(babyPink)
+                        .background(UIConstants.filterColour.opacity(0.2))
+                        .foregroundStyle(UIConstants.filterColour)
                         .cornerRadius(6)
                 }
                 .buttonStyle(.plain)

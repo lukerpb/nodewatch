@@ -37,6 +37,11 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A377A731303F04D900820DA1 /* Utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,7 @@
 				000000000000000000000020 /* Products */,
 				A33A8FBD303D834700C3356B /* ViewModels */,
 				A33A8FBE303D834E00C3356B /* Views */,
+				A377A731303F04D900820DA1 /* Utils */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +93,7 @@
 				A33A8FBC303D833F00C3356B /* Models */,
 				A33A8FBD303D834700C3356B /* ViewModels */,
 				A33A8FBE303D834E00C3356B /* Views */,
+				A377A731303F04D900820DA1 /* Utils */,
 			);
 			name = Nodewatch;
 			productName = MyApp;

@@ -73,8 +73,8 @@ struct NodeService: Identifiable, Codable, Hashable {
         
         var icon: String {
             switch self {
-                case .up: return "checkmark.circle.fill"
-                case .down: return "xmark.octagon.fill"
+                case .up: return "arrow.up.circle.fill"
+                case .down: return "arrow.down.circle.fill"
                 case .unreachable: return "network.slash"
                 case .pending: return "clock.fill"
             }

@@ -2,7 +2,7 @@ import Foundation
 
 struct ServerConfig: Codable, Equatable, Identifiable {
     var id = UUID()
-    var name: String = "nagios.mohc.net"
+    var name: String = Constants.Defaults.instanceName
     var url: String = ""
     var port: String = ""
     var hostGroups: String = ""
@@ -10,7 +10,7 @@ struct ServerConfig: Codable, Equatable, Identifiable {
     
     var fullUrl: String {
         let cleanPort = port.trimmingCharacters(in: .whitespaces)
-        let finalPort = cleanPort.isEmpty ? "5678" : cleanPort
+        let finalPort = cleanPort.isEmpty ? Constants.Defaults.port : cleanPort
         return "\(url):\(finalPort)/webhook/nodewatch-services"
     }
 }

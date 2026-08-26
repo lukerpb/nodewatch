@@ -2,11 +2,16 @@ import SwiftUI
 
 struct HostSectionView: View {
     let group: HostGroup
+    var isSearching: Bool // NEW
     @State private var isExpanded: Bool = false
     
     var body: some View {
-        DisclosureGroup(isExpanded: $isExpanded) {
-            // NEW: Added icons to the nested builder
+        let expandedBinding = Binding(
+            get: { isSearching || isExpanded },
+            set: { isExpanded = $0 }
+        )
+        
+        DisclosureGroup(isExpanded: expandedBinding) {
             TrafficLightBuilder(items: [
                 (group.items.filter { $0.state == .ok }.count, .green, "OK", NodeService.ServiceState.ok.icon),
                 (group.items.filter { $0.state == .critical }.count, .red, "CRITICAL", NodeService.ServiceState.critical.icon),

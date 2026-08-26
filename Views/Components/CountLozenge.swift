@@ -1,5 +1,10 @@
 import SwiftUI
 
+private enum LozengeStyle {
+    static let backgroundOpacity: Double = 0.2
+    static let cornerRadius: CGFloat = 6.0
+}
+
 struct CountLozenge: View {
     let text: String
     var icon: String? = nil
@@ -14,10 +19,10 @@ struct CountLozenge: View {
         }
         .font(.system(.caption, design: .monospaced))
         .bold()
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 5)
         .padding(.vertical, 4)
-        .background(colour.opacity(0.2))
+        .background(colour.opacity(LozengeStyle.backgroundOpacity))
         .foregroundStyle(colour)
-        .cornerRadius(6)
+        .cornerRadius(LozengeStyle.cornerRadius)
     }
 }
