@@ -38,6 +38,8 @@ class NodewatchViewModel: ObservableObject {
     @Published var lastRefresh: Date? = nil
     @Published var nextRefreshCountdown: Int = Constants.AppState.autoRefreshInterval
     @Published var isRefreshing: Bool = false
+
+    @Published var lastFetchError: String? = nil
     
     var isFiltering: Bool {
         !hostGroupsFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -152,6 +154,7 @@ class NodewatchViewModel: ObservableObject {
         
         await MainActor.run {
             self.isRefreshing = true
+            self.lastFetchError = nil
         }
         
         do {
@@ -160,7 +163,17 @@ class NodewatchViewModel: ObservableObject {
             
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                await MainActor.run { self.isRefreshing = false }
+                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+                await MainActor.run { 
+                    if self.lastFetchError == nil && !self.services.isEmpty {
+                        NotificationManager.shared.dispatchAlert(
+                            identifier: "server-offline",
+                            title: "Connection lost",
+                            body: "The server responded with error code \(statusCode)")
+                    }
+                    self.lastFetchError = "Server returned an error code: \(statusCode)"
+                    self.isRefreshing = false 
+                }
                 return
             }
             
@@ -182,11 +195,20 @@ class NodewatchViewModel: ObservableObject {
                 self.services = newServices
                 self.lastRefresh = Date()
                 self.nextRefreshCountdown = Constants.AppState.autoRefreshInterval
+                self.lastFetchError = nil
                 self.isRefreshing = false
             }
         } catch {
             print("Fetch failed: \(error.localizedDescription)")
             await MainActor.run {
+                if self.lastFetchError == nil && !self.services.isEmpty {
+                    NotificationManager.shared.dispatchAlert(
+                        identifier: "server-offline",
+                        title: "Connection Lost",
+                        body: "Could not reach the server: \(error.localizedDescription)"
+                    )
+                }
+                self.lastFetchError = error.localizedDescription
                 self.isRefreshing = false
             }
         }

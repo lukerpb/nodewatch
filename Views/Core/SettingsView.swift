@@ -100,6 +100,11 @@ struct SettingsView: View {
     }
     
     private func saveConfig(newConfig: ServerConfig, triggerTest: Bool) {
+        if (serverConfig.url != newConfig.url) {
+            viewModel.services = []
+            viewModel.lastFetchError = nil
+        }
+        
         serverConfig = newConfig
         if let encoded = try? JSONEncoder().encode(serverConfig) {
             serverConfigData = encoded

@@ -79,7 +79,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         }
     }
         
-    private func dispatchAlert(identifier: String, title: String, body: String) {
+    func dispatchAlert(identifier: String, title: String, body: String) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body

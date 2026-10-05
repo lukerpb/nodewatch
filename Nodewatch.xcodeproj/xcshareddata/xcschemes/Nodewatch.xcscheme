@@ -17,7 +17,6 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000000000000000100000000"
                BuildableName = "Nodewatch.app"
-               BlueprintName = "Nodewatch"
                ReferencedContainer = "container:Nodewatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +46,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "000000000000000100000000"
             BuildableName = "Nodewatch.app"
-            BlueprintName = "Nodewatch"
             ReferencedContainer = "container:Nodewatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -64,7 +62,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "000000000000000100000000"
             BuildableName = "Nodewatch.app"
-            BlueprintName = "Nodewatch"
             ReferencedContainer = "container:Nodewatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
